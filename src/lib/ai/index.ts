@@ -1,7 +1,7 @@
 import { generateCode as generateWithOpenAI } from './openai';
 import { generateCodeWithZhipu } from './zhipu';
 
-export type AIProvider = 'openai' | 'zhipu';
+export type AIProvider = 'openai' | 'zhipu' | 'glm5';
 
 export interface GenerateCodeParams {
   prompt: string;
@@ -14,6 +14,8 @@ export async function generateCode({ prompt, provider = 'openai' }: GenerateCode
       return generateWithOpenAI(prompt, 'openai');
     case 'zhipu':
       return generateCodeWithZhipu(prompt);
+    case 'glm5':
+      return generateCodeWithZhipu(prompt, 'glm-5');
     default:
       return generateWithOpenAI(prompt, 'openai');
   }

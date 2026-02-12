@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { prompt, provider = 'openai' } = body as { prompt: string; provider?: 'openai' | 'zhipu' };
+    const { prompt, provider = 'openai' } = body as { prompt: string; provider?: 'openai' | 'zhipu' | 'glm5' };
 
     if (!prompt) {
       return NextResponse.json(
@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
 
       code = response.choices[0]?.message?.content || '';
     } else {
-      // 智谱AI
+      // 智谱AI (GLM-4 / GLM-5)
       const apiKey = process.env.ZHIPU_API_KEY;
       if (!apiKey) {
         return NextResponse.json(
@@ -98,6 +98,8 @@ export async function POST(request: NextRequest) {
         );
       }
 
+      const model = provider === 'glm5' ? 'glm-5' : 'glm-4-plus';
+
       const response = await fetch('https://open.bigmodel.cn/api/paas/v4/chat/completions', {
         method: 'POST',
         headers: {
@@ -105,7 +107,7 @@ export async function POST(request: NextRequest) {
           'Authorization': `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-          model: 'glm-4-plus',
+          model,
           messages: [
             {
               role: 'system',
