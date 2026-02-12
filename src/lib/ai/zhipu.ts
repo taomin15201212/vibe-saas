@@ -8,7 +8,7 @@ export interface ZhipuMessage {
   content: string;
 }
 
-export async function generateCodeWithZhipu(prompt: string): Promise<string> {
+export async function generateCodeWithZhipu(prompt: string, model: 'glm-4-plus' | 'glm-5' = 'glm-4-plus'): Promise<string> {
   const apiKey = process.env.ZHIPU_API_KEY;
 
   if (!apiKey) {
@@ -22,7 +22,7 @@ export async function generateCodeWithZhipu(prompt: string): Promise<string> {
       'Authorization': `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: 'glm-4-plus', // 或 'glm-4v' 用于多模态
+      model,
       messages: [
         {
           role: 'system',

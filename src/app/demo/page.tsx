@@ -17,7 +17,7 @@ export default function DemoPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [viewMode, setViewMode] = useState<ViewMode>('split');
-  const [provider, setProvider] = useState<'openai' | 'zhipu'>('openai');
+  const [provider, setProvider] = useState<'openai' | 'zhipu' | 'glm5'>('openai');
   const [user, setUser] = useState<any>(null);
   const [saved, setSaved] = useState(false);
 
@@ -119,11 +119,12 @@ export default function DemoPage() {
             {/* AI Provider 选择 */}
             <select
               value={provider}
-              onChange={(e) => setProvider(e.target.value as 'openai' | 'zhipu')}
+              onChange={(e) => setProvider(e.target.value as 'openai' | 'zhipu' | 'glm5')}
               className="px-3 py-1.5 text-sm bg-gray-100 dark:bg-gray-800 rounded-lg border-0 focus:ring-2 focus:ring-blue-500"
             >
               <option value="openai">OpenAI</option>
-              <option value="zhipu">智谱AI</option>
+              <option value="zhipu">智谱AI (GLM-4)</option>
+              <option value="glm5">智谱AI (GLM-5)</option>
             </select>
 
             {user ? (
